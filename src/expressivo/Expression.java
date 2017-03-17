@@ -16,7 +16,7 @@ import lib6005.parser.*;
 public interface Expression {
     
     // Datatype definition
-    //   TODO
+    // Expression = Number + Variable + Plus(a:Expression, b:Expression) + Times(a:Expression, b:Expression)
     
     /**
      * Parse an expression.
