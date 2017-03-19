@@ -1,5 +1,6 @@
 package expressivo;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 /**
@@ -42,7 +43,9 @@ public class NumberExpression implements Expression {
 
     @Override
     public String toString() {
-        return String.valueOf(number);
+        DecimalFormat df = new DecimalFormat("#");
+        df.setMaximumFractionDigits(100);
+        return df.format(number);
     }
 
     @Override
