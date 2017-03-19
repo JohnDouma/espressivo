@@ -13,9 +13,10 @@
  */
 root ::= expr;
 @skip whitespace{
-	expr ::= primitive | sum | product;
-	sum ::= primitive '+' expr;
-	product ::= primitive '*' expr;
+	expr ::= term | sum;
+	sum ::= term '+' expr;
+	term ::= primitive | product;
+	product ::= primitive '*' term;
 	primitive ::= number | variable | '(' expr ')';
 }
 whitespace ::= [ ]+;

@@ -27,7 +27,7 @@ public interface Expression {
     // Times(a:Expression, b:Expression)
 
     enum ExpressionGrammar {
-        ROOT, EXPR, SUM, PRODUCT, PRIMITIVE, NUMBER, VARIABLE, WHITESPACE
+        ROOT, EXPR, SUM, PRODUCT, PRIMITIVE, NUMBER, VARIABLE, TERM, WHITESPACE
     };
 
     /**
@@ -88,19 +88,17 @@ public interface Expression {
         case ROOT:
             return buildAST(tree.childrenByName(ExpressionGrammar.EXPR).get(0));
         case EXPR:
-            if (!tree.childrenByName(ExpressionGrammar.PRIMITIVE).isEmpty()) {
-                return buildAST(tree.childrenByName(ExpressionGrammar.PRIMITIVE).get(0));
-            } else if (!tree.childrenByName(ExpressionGrammar.PRODUCT).isEmpty()) {
-                return buildAST(tree.childrenByName(ExpressionGrammar.PRODUCT).get(0));
-            } else {
-                return buildAST(tree.childrenByName(ExpressionGrammar.SUM).get(0));
+            if (!tree.childrenByName(ExpressionGrammar.TERM).isEmpty()) {
+                return buildAST(tree.childrenByName(ExpressionGrammar.TERM).get(0));
             }
+
+            return buildAST(tree.childrenByName(ExpressionGrammar.SUM).get(0));
         case SUM:
-            return new AdditiveExpression(buildAST(tree.childrenByName(ExpressionGrammar.PRIMITIVE).get(0)),
+            return new AdditiveExpression(buildAST(tree.childrenByName(ExpressionGrammar.TERM).get(0)),
                     buildAST(tree.childrenByName(ExpressionGrammar.EXPR).get(0)));
         case PRODUCT:
             return new MultiplicativeExpression(buildAST(tree.childrenByName(ExpressionGrammar.PRIMITIVE).get(0)),
-                    buildAST(tree.childrenByName(ExpressionGrammar.EXPR).get(0)));
+                    buildAST(tree.childrenByName(ExpressionGrammar.TERM).get(0)));
         case PRIMITIVE:
             if (!tree.childrenByName(ExpressionGrammar.NUMBER).isEmpty()) {
                 return buildAST(tree.childrenByName(ExpressionGrammar.NUMBER).get(0));
@@ -109,6 +107,12 @@ public interface Expression {
             } else {
                 return buildAST(tree.childrenByName(ExpressionGrammar.EXPR).get(0));
             }
+        case TERM:
+            if (!tree.childrenByName(ExpressionGrammar.PRIMITIVE).isEmpty()) {
+                return buildAST(tree.childrenByName(ExpressionGrammar.PRIMITIVE).get(0));
+            }
+
+            return buildAST(tree.childrenByName(ExpressionGrammar.PRODUCT).get(0));
         case NUMBER:
             return new NumberExpression(Double.parseDouble(tree.getContents()));
         case VARIABLE:
@@ -119,23 +123,27 @@ public interface Expression {
 
         }
     }
-    
+
     /**
      * Differentiate the current expression with respect to the input var
      * 
-     * @param var variable to differentiate with respect to
+     * @param var
+     *            variable to differentiate with respect to
      * 
-     * @return Expression representing derivative of this Expression with respect to var
+     * @return Expression representing derivative of this Expression with
+     *         respect to var
      */
     public Expression differentiateWithRespectTo(String var);
-    
+
     /**
-     * Substitutes variable values from an input environment into the expression. Reduces
-     * expressions with no variables into single numbers.
+     * Substitutes variable values from an input environment into the
+     * expression. Reduces expressions with no variables into single numbers.
      * 
-     * @param environment map of variables to values
+     * @param environment
+     *            map of variables to values
      * 
-     * @return Expression with variables replaced with values from the environment
+     * @return Expression with variables replaced with values from the
+     *         environment
      */
     public Expression simplify(Map<String, Double> environment);
 
