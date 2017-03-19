@@ -13,10 +13,9 @@
  */
 root ::= expr;
 @skip whitespace{
-	expr ::= number | variable | '(' expr ')' | expr '+' expr | expr '*' expr;
-	primitive ::= number | '(' sum ')';
+	expr ::= primitive | primitive ('+' expr)+ | primitive ('*' expr)+;
+	primitive ::= number | variable | '(' expr ')';
 }
-number ::= 0 | [1-9][0-9]*[.[0-9]+]?;
-variable ::= [A-Za-z]+
-
 whitespace ::= [ ]+;
+variable ::= [a-zA-Z]+;
+number ::= '0' | '0' '.' [0-9]+ | [1-9][0-9]*('.' [0-9]+)?;
