@@ -42,5 +42,10 @@ public class NumberExpression implements Expression {
     public String toString() {
         return String.valueOf(number);
     }
+
+    @Override
+    public Expression differentiateWithRespectTo(String var) {
+        return new NumberExpression(0);
+    }
    
 }

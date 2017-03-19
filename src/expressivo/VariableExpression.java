@@ -50,4 +50,13 @@ public class VariableExpression implements Expression {
     public String toString() {
         return variable;
     }
+
+    @Override
+    public Expression differentiateWithRespectTo(String var) {
+        if (variable.equals(var)) {
+            return new NumberExpression(1);
+        }
+        
+        return new NumberExpression(0);
+    }
 }

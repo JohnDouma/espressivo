@@ -52,6 +52,7 @@ public interface Expression {
             e.printStackTrace();
         } catch (UnableToParseException ue) {
             ue.printStackTrace();
+            throw new IllegalArgumentException(input);
         }
 
         return null;
@@ -117,6 +118,15 @@ public interface Expression {
 
         }
     }
+    
+    /**
+     * Differentiate the current expression with respect to the input var
+     * 
+     * @param var variable to differentiate with respect to
+     * 
+     * @return Expression representing derivative of this Expression with respect to var
+     */
+    public Expression differentiateWithRespectTo(String var);
 
     /*
      * Copyright (c) 2015-2017 MIT 6.005 course staff, all rights reserved.

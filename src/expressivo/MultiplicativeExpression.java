@@ -45,9 +45,16 @@ public class MultiplicativeExpression implements Expression {
             return false;
         return true;
     }
-    
+
     @Override
     public String toString() {
         return leftExpression.toString() + " * " + rightExpression.toString();
+    }
+
+    @Override
+    public Expression differentiateWithRespectTo(String var) {
+        return new AdditiveExpression(
+                new MultiplicativeExpression(leftExpression, rightExpression.differentiateWithRespectTo(var)),
+                new MultiplicativeExpression(leftExpression.differentiateWithRespectTo(var), rightExpression));
     }
 }

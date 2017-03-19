@@ -50,4 +50,10 @@ public class AdditiveExpression implements Expression {
     public String toString() {
         return "(" + leftExpression.toString() + " + " + rightExpression.toString() + ")";
     }
+
+    @Override
+    public Expression differentiateWithRespectTo(String var) {
+        return new AdditiveExpression(leftExpression.differentiateWithRespectTo(var),
+                rightExpression.differentiateWithRespectTo(var));
+    }
 }
