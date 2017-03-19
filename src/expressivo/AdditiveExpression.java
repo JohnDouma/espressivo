@@ -48,6 +48,6 @@ public class AdditiveExpression implements Expression {
 
     @Override
     public String toString() {
-        return leftExpression.toString() + " + " + rightExpression.toString();
+        return "(" + leftExpression.toString() + " + " + rightExpression.toString() + ")";
     }
 }
