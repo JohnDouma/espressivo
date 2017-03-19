@@ -1,5 +1,7 @@
 package expressivo;
 
+import java.util.Map;
+
 /**
  * Represents a numerical expression
  * 
@@ -46,6 +48,11 @@ public class NumberExpression implements Expression {
     @Override
     public Expression differentiateWithRespectTo(String var) {
         return new NumberExpression(0);
+    }
+
+    @Override
+    public Expression simplify(Map<String, Double> environment) {
+        return this;
     }
    
 }

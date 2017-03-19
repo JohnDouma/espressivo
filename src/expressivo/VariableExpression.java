@@ -1,5 +1,7 @@
 package expressivo;
 
+import java.util.Map;
+
 /**
  * Represents a variable expression
  * 
@@ -58,5 +60,13 @@ public class VariableExpression implements Expression {
         }
         
         return new NumberExpression(0);
+    }
+
+    @Override
+    public Expression simplify(Map<String, Double> environment) {
+        if (environment.containsKey(variable)) {
+            return new NumberExpression(environment.get(variable));
+        }
+        return this;
     }
 }

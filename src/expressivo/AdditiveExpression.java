@@ -1,5 +1,7 @@
 package expressivo;
 
+import java.util.Map;
+
 /**
  * Represents the sum of two Expression objects
  * 
@@ -55,5 +57,19 @@ public class AdditiveExpression implements Expression {
     public Expression differentiateWithRespectTo(String var) {
         return new AdditiveExpression(leftExpression.differentiateWithRespectTo(var),
                 rightExpression.differentiateWithRespectTo(var));
+    }
+
+    @Override
+    public Expression simplify(Map<String, Double> environment) {
+        Expression simplifiedLeftExpression = leftExpression.simplify(environment);
+        Expression simplifiedRightExpression = rightExpression.simplify(environment);
+
+        if (simplifiedLeftExpression instanceof NumberExpression
+                && simplifiedRightExpression instanceof NumberExpression) {
+            return new NumberExpression(Double.parseDouble(simplifiedLeftExpression.toString())
+                    + Double.parseDouble(simplifiedRightExpression.toString()));
+        }
+        
+        return new AdditiveExpression(simplifiedLeftExpression, simplifiedRightExpression);
     }
 }

@@ -2,6 +2,7 @@ package expressivo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import lib6005.parser.GrammarCompiler;
 import lib6005.parser.ParseTree;
@@ -127,6 +128,16 @@ public interface Expression {
      * @return Expression representing derivative of this Expression with respect to var
      */
     public Expression differentiateWithRespectTo(String var);
+    
+    /**
+     * Substitutes variable values from an input environment into the expression. Reduces
+     * expressions with no variables into single numbers.
+     * 
+     * @param environment map of variables to values
+     * 
+     * @return Expression with variables replaced with values from the environment
+     */
+    public Expression simplify(Map<String, Double> environment);
 
     /*
      * Copyright (c) 2015-2017 MIT 6.005 course staff, all rights reserved.
